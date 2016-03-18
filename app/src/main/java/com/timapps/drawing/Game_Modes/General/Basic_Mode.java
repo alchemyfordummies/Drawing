@@ -13,9 +13,10 @@ import java.util.HashMap;
 /**
  * Implements the basic form of the game modes
  * Created by Tim Froberg on 3/1/2016.
+ * This is testing a push
  */
 public class Basic_Mode extends AppCompatActivity implements Modes_Interface {
-   private HashMap<Integer, String> roygbiv = new HashMap<Integer, String>();
+   private HashMap<Integer, String> roygbiv = new HashMap<>();
    private ArrayList timeList = new ArrayList();
 
    private int key          = 0;
