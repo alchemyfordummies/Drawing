@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.timapps.drawing.MainScreen"
+    android:id="@+id/background">
+
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:id="@+id/mainSkyObject"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/randColor"
+        android:layout_marginBottom="15dp"
+        android:background="#8e8e8e"
+        android:layout_above="@+id/goButt"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:text="@string/goButt"
+        android:id="@+id/goButt"
+        android:layout_marginBottom="20dp"
+        android:background="#24ecd8"
+        android:layout_above="@+id/startButt"
+        android:layout_alignRight="@+id/startButt"
+        android:layout_alignEnd="@+id/startButt"
+        android:layout_alignLeft="@+id/startButt"
+        android:layout_alignStart="@+id/startButt"/>
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/prevButt"
+        android:id="@+id/prevButt"
+        android:layout_alignTop="@+id/goButt"
+        android:layout_toLeftOf="@+id/randColor"
+        android:layout_toStartOf="@+id/randColor" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/nextButt"
+        android:id="@+id/nextButt"
+        android:layout_alignTop="@+id/goButt"
+        android:layout_toRightOf="@+id/randColor"
+        android:layout_toEndOf="@+id/randColor" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/colorNow"
+        android:textColor="#8e8e8e"
+        android:gravity="center_horizontal"
+        android:layout_below="@+id/test"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/test"
+        android:id="@+id/test"
+        android:textColor="#8e8e8e"
+        android:layout_below="@+id/mainSkyObject"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:text="@string/startButt"
+        android:id="@+id/startButt"
+        android:background="#2cfd03"
+        android:onClick="stop"
+        android:layout_marginBottom="20dp"
+        android:layout_above="@+id/scoreLaunch"
+        android:layout_alignLeft="@+id/scoreLaunch"
+        android:layout_alignStart="@+id/scoreLaunch"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/time"
+        android:id="@+id/time"
+        android:layout_alignTop="@+id/mainSkyObject"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:text="@string/scoreLaunch"
+        android:id="@+id/scoreLaunch"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="#5460cc"
+        android:onClick="scoreLaunch"/>
+
+</RelativeLayout>
