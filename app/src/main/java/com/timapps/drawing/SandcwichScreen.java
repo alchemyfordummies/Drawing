@@ -18,14 +18,15 @@ public class SandcwichScreen extends AppCompatActivity {
    /* GENERAL CLASS VARIABLES */
 
    //DATA STRUCTURES
-   private HashMap<Integer, String> roygbivPlus = new HashMap<Integer, String>();
+   private HashMap<Integer, String> roygbivPlus = new HashMap<>();
    private ArrayList timeList = new ArrayList();
 
    //INTEGERS
    private int key          = 0; //the correct number
-   private int endOfGame    = 0; //number of correct to finish the game
    private int counter      = 0; //User's total correct
    private int wrongCounter = 0;
+   private int endOfGame    = 0;
+   private int currentIndex = 0;
 
    //LONGS (for time)
    private long startTime, endTime;
@@ -35,12 +36,9 @@ public class SandcwichScreen extends AppCompatActivity {
    //true means to show reset, false is to show
    //start.
 
-   //STRINGS
-   private String totalTime    = ""; //will take the difference between startTime and
    //endTime
-   private String currentColor = ""; //the current background
-   private String prevColor    = ""; //stores previous color
-   private String background   = ""; //color from previous activities
+   private String currentColorLeft  = ""; //the current background for the left
+   private String currentColorRight = ""; //the current background for the right
     /*             END               */
 
    @Override
@@ -51,6 +49,7 @@ public class SandcwichScreen extends AppCompatActivity {
 
       Bundle extras = getIntent().getExtras();
       background = extras.getString("BACKGROUND_COLOR");
+      endOfGame  = extras.getInt("GAME_LENGTH");
         /*                           */
 
       View view = this.getWindow().getDecorView();
@@ -103,7 +102,7 @@ public class SandcwichScreen extends AppCompatActivity {
       });
 
       Button go = (Button) findViewById(R.id.goButt);
-      start.setOnClickListener(new View.OnClickListener() {
+      go.setOnClickListener(new View.OnClickListener() {
          public void onClick(View v) {
             goOnClick();
          }
@@ -143,7 +142,7 @@ public class SandcwichScreen extends AppCompatActivity {
          //color is that string value.
          String temp = String.valueOf(roygbivPlus.get(key));
          changeColor(temp, matchColor);
-         currentColor = temp;
+         currentColorLeft = temp;
       }
 
       return key;
@@ -160,7 +159,7 @@ public class SandcwichScreen extends AppCompatActivity {
 
          String temp = String.valueOf(roygbivPlus.get(key));
          changeColor(temp, matchColor);
-         currentColor = temp;
+         currentColorRight = temp;
       }
 
       return key;
@@ -177,7 +176,7 @@ public class SandcwichScreen extends AppCompatActivity {
 
          String temp = String.valueOf(roygbivPlus.get(key));
          changeColor(temp, matchColor);
-         currentColor = temp;
+         currentColorLeft = temp;
       }
 
       return key;
@@ -194,7 +193,7 @@ public class SandcwichScreen extends AppCompatActivity {
 
          String temp = String.valueOf(roygbivPlus.get(key));
          changeColor(temp, matchColor);
-         currentColor = temp;
+         currentColorRight = temp;
       }
 
       return key;
@@ -244,10 +243,12 @@ public class SandcwichScreen extends AppCompatActivity {
    //4. If the colors don't match, it sets the counter textfield
    //to say "wrong" in the red color, and increments the wrongCounter
    public void goOnClick() {
-      TextView colorText = (TextView) findViewById(R.id.colorNow);
-      TextView countText = (TextView) findViewById(R.id.test);
+      ImageView leftColor  = (ImageView) findViewById(R.id.leftColor);
+      ImageView rightColor = (ImageView) findViewById(R.id.rightColor);
+      TextView countText = (TextView) findViewById(R.id.sandwichCounter);
       if (isStarted) {
-         if (currentColor.equals(colorText.getText())) {
+         if (roygbivPlus.get(currentIndex-1).equals(currentColorLeft) &&
+             roygbivPlus.get(currentIndex+1).equals(currentColorRight)) {
             randColor();
             counter++;
             countText.setText(String.valueOf(counter));
@@ -322,7 +323,7 @@ public class SandcwichScreen extends AppCompatActivity {
       TextView colorText = (TextView) findViewById(R.id.colorNow);
       if (counter == winningCount) {
          endTime = System.nanoTime();
-         totalTime = elapsedTime();
+         String totalTime = elapsedTime();
          countText.setText(totalTime);
          saveScores(totalTime);
          isStarted = false;
@@ -348,16 +349,15 @@ public class SandcwichScreen extends AppCompatActivity {
 
    //Starts the program off with a new Text color which the
    //user must match
-   public int randColor() {
-      ImageView currentColor = (ImageView) findViewById(R.id.colorToMatch);
+   public void randColor() {
+      ImageView colorToMatch = (ImageView) findViewById(R.id.colorToMatch);
       Random goRand = new Random();
-      int num = goRand.nextInt(11) + 1;
-      if (roygbivPlus.get(num).equals(prevColor)) {
+      currentIndex = goRand.nextInt(11) + 1;
+      String prevColor = "";
+      if (roygbivPlus.get(currentIndex).equals(prevColor)) {
          randColor();
       } else {
-         changeColor(roygbivPlus.get(num), currentColor);
+         changeColor(roygbivPlus.get(currentIndex), colorToMatch);
       }
-
-      return num;
    }
 }
