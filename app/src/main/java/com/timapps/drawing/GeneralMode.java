@@ -3,14 +3,10 @@ package com.timapps.drawing;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 public class GeneralMode extends AppCompatActivity {
    private String background;
@@ -63,7 +59,7 @@ public class GeneralMode extends AppCompatActivity {
       Button sandwich = (Button) findViewById(R.id.sandwichMode);
       sandwich.setOnClickListener(new View.OnClickListener() {
          public void onClick(View v) {
-            Intent mainDraw = new Intent(GeneralMode.this, SandcwichScreen.class);
+            Intent mainDraw = new Intent(GeneralMode.this, SandwichScreen.class);
             mainDraw.putExtra("BACKGROUND_COLOR", background);
             mainDraw.putExtra("GAME_LENGTH", gameLength);
             startActivity(mainDraw);

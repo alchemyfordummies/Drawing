@@ -10,7 +10,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.timapps.drawing.SandcwichScreen"
+    tools:context=".SandwichScreen"
     tools:showIn="@layout/activity_sandcwich_screen"
     android:clickable="false">
 
@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:text="@string/nextButtLeft"
         android:id="@+id/nextButtLeft"
-        android:layout_alignTop="@+id/nextButtRight"
+        android:layout_alignTop="@+id/prevButtRight"
         android:layout_toLeftOf="@+id/goButt"
         android:layout_toStartOf="@+id/goButt"/>
 
@@ -47,8 +47,8 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:text="@string/prevButtRight"
-        android:id="@+id/prevButtRight"
+        android:text="@string/nextButtRight"
+        android:id="@+id/nextButtRight"
         android:layout_below="@+id/rightColor"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
@@ -57,11 +57,11 @@
     <Button
         android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:text="@string/nextButtRight"
-        android:id="@+id/nextButtRight"
-        android:layout_alignTop="@+id/prevButtRight"
-        android:layout_toLeftOf="@+id/prevButtRight"
-        android:layout_toStartOf="@+id/prevButtRight"/>
+        android:id="@+id/prevButtRight"
+        android:layout_alignTop="@+id/nextButtRight"
+        android:layout_toLeftOf="@+id/nextButtRight"
+        android:layout_toStartOf="@+id/nextButtRight"
+        android:text="@string/prevButtRight"/>
 
     <ImageView
         android:layout_width="100dp"
@@ -78,7 +78,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:background="#5460cc"
-        android:layout_marginTop="5dp"/>
+        android:layout_marginTop="5dp"
+        android:onClick="scoreLaunch"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -113,8 +114,8 @@
         android:layout_height="70dp"
         android:id="@+id/imageView4"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/nextButtRight"
-        android:layout_toEndOf="@+id/nextButtRight"/>
+        android:layout_toRightOf="@+id/prevButtRight"
+        android:layout_toEndOf="@+id/prevButtRight"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -134,6 +135,6 @@
         android:layout_above="@+id/leftColor"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="50dp"
-        android:text="Text"/>
+        />
 
 </RelativeLayout>

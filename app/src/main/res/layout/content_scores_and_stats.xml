@@ -43,7 +43,8 @@
         android:id="@+id/wrongScore"
         android:layout_above="@+id/percentScore"
         android:layout_centerHorizontal="true"
-        android:textColor="#000000"/>
+        android:textColor="#000000"
+        android:layout_marginTop="40dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -63,4 +64,24 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/topScores"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/percentScore"
+        android:layout_centerHorizontal="true"
+        android:text="Text"
+        android:textStyle="italic"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose Mode"
+        android:id="@+id/modeButt"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"/>
+
 </RelativeLayout>

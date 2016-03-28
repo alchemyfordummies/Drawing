@@ -5,11 +5,18 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Writer;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.Scanner;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -326,6 +333,15 @@ public class ExpandedScreen extends AppCompatActivity {
       //save the items in the ArrayList
       timeList.add(time);
       //write to the saves.txt file
+      try {
+         InputStream in = getAssets().open("saves.txt");
+         //FileWriter write = new FileWriter(in);
+         //write.write(time);
+         //write.flush();
+         //write.close();
+      } catch (IOException e) {
+         e.printStackTrace();
+      }
    }
 
    //When the counter hits the constant value, the program stops and

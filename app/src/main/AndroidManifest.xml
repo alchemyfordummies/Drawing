@@ -64,7 +64,7 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".SandcwichScreen"
+            android:name=".SandwichScreen"
             android:label="@string/title_activity_sandcwich_screen"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>

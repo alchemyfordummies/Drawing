@@ -1,5 +1,6 @@
 package com.timapps.drawing;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,22 +9,29 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-public class SandcwichScreen extends AppCompatActivity {
+public class SandwichScreen extends AppCompatActivity {
    /* GENERAL CLASS VARIABLES */
 
    //DATA STRUCTURES
    private HashMap<Integer, String> roygbivPlus = new HashMap<>();
-   private ArrayList timeList = new ArrayList();
 
    //INTEGERS
-   private int key          = 0; //the correct number
-   private int counter      = 0; //User's total correct
+   private int rightKey     = 0; //Right correct index
+   private int leftKey      = 0; //Left correct index
+   private int counter      = 0;
    private int wrongCounter = 0;
    private int endOfGame    = 0;
    private int currentIndex = 0;
@@ -37,13 +45,14 @@ public class SandcwichScreen extends AppCompatActivity {
    //start.
 
    //endTime
+   private String totalTime         = ""; //will take the difference between startTime and
    private String currentColorLeft  = ""; //the current background for the left
    private String currentColorRight = ""; //the current background for the right
+   private String background;
     /*             END               */
 
    @Override
    protected void onCreate(Bundle savedInstanceState) {
-      String background;
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_sandcwich_screen);
 
@@ -104,7 +113,11 @@ public class SandcwichScreen extends AppCompatActivity {
       Button go = (Button) findViewById(R.id.goButt);
       go.setOnClickListener(new View.OnClickListener() {
          public void onClick(View v) {
-            goOnClick();
+            try {
+               goOnClick();
+            } catch (IOException e) {
+               e.printStackTrace();
+            }
          }
       });
    }
@@ -129,74 +142,66 @@ public class SandcwichScreen extends AppCompatActivity {
    //the hashmap, moving the background color to the left.
    //If it goes all the way to the left (1) it wraps around to 7
    //(all the way at the end).
-   public int prevLeftOnClick() {
+   public void prevLeftOnClick() {
       ImageView matchColor = (ImageView) findViewById(R.id.leftColor);
       if (isStarted) {
-         key -= 1;
-         if (key < 1) {
-            key = 11;
+         leftKey -= 1;
+         if (leftKey < 1) {
+            leftKey = 11;
          }
 
          //Gets the string associated with the current key value,
          //then runs the changeColor function, then says the current
          //color is that string value.
-         String temp = String.valueOf(roygbivPlus.get(key));
+         String temp = String.valueOf(roygbivPlus.get(leftKey));
          changeColor(temp, matchColor);
          currentColorLeft = temp;
       }
-
-      return key;
    }
 
    //Same functionality but changes the other button
-   public int prevRightOnClick() {
+   public void prevRightOnClick() {
       ImageView matchColor = (ImageView) findViewById(R.id.rightColor);
       if (isStarted) {
-         key -= 1;
-         if (key < 1) {
-            key = 11;
+         rightKey -= 1;
+         if (rightKey < 1) {
+            rightKey = 11;
          }
 
-         String temp = String.valueOf(roygbivPlus.get(key));
+         String temp = String.valueOf(roygbivPlus.get(rightKey));
          changeColor(temp, matchColor);
          currentColorRight = temp;
       }
-
-      return key;
    }
 
    //Does the same as prevOnClick but moves in the opposite direction
-   public int nextLeftOnClick() {
+   public void nextLeftOnClick() {
       ImageView matchColor = (ImageView) findViewById(R.id.leftColor);
       if (isStarted) {
-         key += 1;
-         if (key > 11) {
-            key = 1;
+         leftKey += 1;
+         if (leftKey > 11) {
+            leftKey = 1;
          }
 
-         String temp = String.valueOf(roygbivPlus.get(key));
+         String temp = String.valueOf(roygbivPlus.get(leftKey));
          changeColor(temp, matchColor);
          currentColorLeft = temp;
       }
-
-      return key;
    }
 
    //nextLeft for the right button
-   public int nextRightOnClick() {
+   public void nextRightOnClick() {
       ImageView matchColor = (ImageView) findViewById(R.id.rightColor);
       if (isStarted) {
-         key += 1;
-         if (key > 11) {
-            key = 1;
+         rightKey += 1;
+         if (rightKey > 11) {
+            rightKey = 1;
          }
 
-         String temp = String.valueOf(roygbivPlus.get(key));
+         String temp = String.valueOf(roygbivPlus.get(rightKey));
          changeColor(temp, matchColor);
          currentColorRight = temp;
       }
-
-      return key;
    }
 
    //Linked to the startButt
@@ -207,7 +212,7 @@ public class SandcwichScreen extends AppCompatActivity {
    //operation, taking it back to original state
    public void startOnClick() {
       TextView text = (TextView) findViewById(R.id.sandwichCounter);
-      text.setText("69!");
+      text.setText("0");
       Button startButton = (Button) findViewById(R.id.startButt);
       if (!isStarted) {
          startTime = System.nanoTime();
@@ -219,13 +224,11 @@ public class SandcwichScreen extends AppCompatActivity {
          //If startButt is in its reset state, and it is clicked
          //1. Says it's no longer started and takes a new time
          //2. It changes the button back to its default state
-         TextView countText = (TextView) findViewById(R.id.test);
-         TextView colorText = (TextView) findViewById(R.id.colorNow);
+         TextView countText = (TextView) findViewById(R.id.sandwichCounter);
          startTime = System.nanoTime();
          isStarted = false;
          counter = 0;
          countText.setText("0");
-         colorText.setText("");
          startButton.setText("Start");
          startButton.setBackgroundColor(Color.GREEN);
       }
@@ -242,7 +245,7 @@ public class SandcwichScreen extends AppCompatActivity {
    //and set the text color to grey
    //4. If the colors don't match, it sets the counter textfield
    //to say "wrong" in the red color, and increments the wrongCounter
-   public void goOnClick() {
+   public void goOnClick() throws IOException {
       ImageView leftColor  = (ImageView) findViewById(R.id.leftColor);
       ImageView rightColor = (ImageView) findViewById(R.id.rightColor);
       TextView countText = (TextView) findViewById(R.id.sandwichCounter);
@@ -318,12 +321,12 @@ public class SandcwichScreen extends AppCompatActivity {
    //Takes the end time, then calculates the total time run using the
    //elapsedTime() function, then changes the text, sets some defaults, and
    //adds the time to the bank of times.
-   public void isGameDone(int winningCount) {
+   public void isGameDone(int winningCount) throws IOException {
       TextView countText = (TextView) findViewById(R.id.test);
       TextView colorText = (TextView) findViewById(R.id.colorNow);
       if (counter == winningCount) {
          endTime = System.nanoTime();
-         String totalTime = elapsedTime();
+         totalTime = elapsedTime();
          countText.setText(totalTime);
          saveScores(totalTime);
          isStarted = false;
@@ -341,10 +344,14 @@ public class SandcwichScreen extends AppCompatActivity {
       return form.format(temp);
    }
 
-   public void saveScores(String time) {
+   public void saveScores(String time) throws IOException {
       //save the items in the ArrayList
-      timeList.add(time);
       //write to the saves.txt file
+      File file = new File("save.txt");
+      FileWriter writer = new FileWriter(file);
+      writer.write(time);
+      writer.flush();
+      writer.close();
    }
 
    //Starts the program off with a new Text color which the
@@ -359,5 +366,18 @@ public class SandcwichScreen extends AppCompatActivity {
       } else {
          changeColor(roygbivPlus.get(currentIndex), colorToMatch);
       }
+   }
+
+   //When the counter hits the constant value, the program stops and
+   // the new activity is available. It will display scores and
+   // information and whatnot, and it will get passed a bunch of
+   // variables, but right now it's crashing the program for some reason.
+   public void scoreLaunch(View v) {
+      Intent launchScore = new Intent(this, ScoresAndStats.class);
+      launchScore.putExtra("BACKGROUND_COLOR", background);
+      launchScore.putExtra("NUMBER_WRONG", wrongCounter);
+      launchScore.putExtra("TIME", totalTime);
+      launchScore.putExtra("GAME_MODE", counter);
+      startActivity(launchScore);
    }
 }

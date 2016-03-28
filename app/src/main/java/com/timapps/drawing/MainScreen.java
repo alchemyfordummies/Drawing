@@ -1,10 +1,18 @@
 package com.timapps.drawing;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -303,18 +311,10 @@ public class MainScreen extends AppCompatActivity {
          endTime = System.nanoTime();
          totalTime = elapsedTime();
          countText.setText(totalTime);
-         saveScores(totalTime);
          isStarted = false;
          colorText.setText("");
       }
    }
-
-   public void saveScores(String time) {
-      //save the items in the ArrayList
-      timeList.add(time);
-      //write to the saves.txt file
-   }
-
    //When the counter hits the constant value, the program stops and
    // the new activity is available. It will display scores and
    // information and whatnot, and it will get passed a bunch of
